@@ -2,7 +2,6 @@ package com.licheedev.modbus4android.param;
 
 import com.licheedev.modbus4android.AndroidSerialPortWrapper;
 import com.licheedev.modbus4android.ModbusParam;
-import com.licheedev.modbus4android.OnSerialPortDataListener;
 import com.serotonin.modbus4j.ModbusFactory;
 import com.serotonin.modbus4j.ModbusMaster;
 import com.serotonin.modbus4j.serial.SerialPortWrapper;
@@ -40,16 +39,14 @@ public class SerialParam implements ModbusParam<SerialParam> {
      * 停止位
      */
     private int stopBits = 1;
-    private OnSerialPortDataListener mOnSerialPortDataListener;
 
     private SerialParam() {
     }
 
-    public static SerialParam create(OnSerialPortDataListener mOnSerialPortDataListener, String serialDevice, int baudRate) {
+    public static SerialParam create(String serialDevice, int baudRate) {
         SerialParam param = new SerialParam();
         param.serialDevice = serialDevice;
         param.baudRate = baudRate;
-        param.mOnSerialPortDataListener = mOnSerialPortDataListener;
         return param;
     }
 
@@ -78,7 +75,7 @@ public class SerialParam implements ModbusParam<SerialParam> {
         ModbusFactory modbusFactory = new ModbusFactory();
 
         SerialPortWrapper wrapper =
-            new AndroidSerialPortWrapper(mOnSerialPortDataListener,getSerialDevice(), getBaudRate(), getDataBits(),
+            new AndroidSerialPortWrapper(getSerialDevice(), getBaudRate(), getDataBits(),
                 getParity(), getStopBits());
 
         ModbusMaster master = modbusFactory.createRtuMaster(wrapper);

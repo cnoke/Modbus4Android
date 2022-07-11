@@ -22,22 +22,19 @@ public class AndroidSerialPortWrapper implements SerialPortWrapper {
     private BufferedInputStream mInputStream;
     private BufferedOutputStream mOutputStream;
     private SerialPort mSerialPort;
-    private SerialPortReadThread mSerialPortReadThread;
-    private OnSerialPortDataListener mOnSerialPortDataListener;
 
-    public AndroidSerialPortWrapper(OnSerialPortDataListener onSerialPortDataListener,String device, int baudRate, int dataBits, int parity,
+    public AndroidSerialPortWrapper(String device, int baudRate, int dataBits, int parity,
         int stopBits) {
         mDevice = device;
         mBaudRate = baudRate;
         mDataBits = dataBits;
         mParity = parity;
         mStopBits = stopBits;
-        mOnSerialPortDataListener = onSerialPortDataListener;
     }
 
     @Override
     public void close() throws Exception {
-        stopReadThread();
+
         if (mInputStream != null) {
             try {
                 mInputStream.close();
@@ -80,26 +77,6 @@ public class AndroidSerialPortWrapper implements SerialPortWrapper {
         
         mInputStream = new BufferedInputStream(mSerialPort.getInputStream());
         mOutputStream = new BufferedOutputStream(mSerialPort.getOutputStream());
-
-//        this.startReadThread();
-    }
-
-    private void startReadThread() {
-        this.mSerialPortReadThread = new SerialPortReadThread(mInputStream) {
-            public void onDataReceived(byte[] bytes) {
-                if (null != AndroidSerialPortWrapper.this.mOnSerialPortDataListener) {
-                    AndroidSerialPortWrapper.this.mOnSerialPortDataListener.onDataReceived(bytes);
-                }
-
-            }
-        };
-        this.mSerialPortReadThread.start();
-    }
-
-    private void stopReadThread() {
-        if (null != this.mSerialPortReadThread) {
-            this.mSerialPortReadThread.release();
-        }
     }
 
     @Override

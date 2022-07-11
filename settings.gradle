@@ -1,1 +1,3 @@
 include ':app', ':modbus4android'
+//include ':modbus4androidlib'
+include ':modbus4j'

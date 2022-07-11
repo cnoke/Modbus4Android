@@ -22,6 +22,7 @@ android {
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
+    api project(':modbus4j')
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
@@ -33,7 +34,7 @@ dependencies {
     // 串口
     api 'com.github.licheedev:Android-SerialPort-API:2.0.0'
     // modbus4j
-    api 'com.github.licheedev:modbus4j:v3.0.6-alpha1'
+//    api 'com.github.licheedev:modbus4j:v3.0.6-alpha1'
 }
 
 apply from: '../jitpack.gradle'

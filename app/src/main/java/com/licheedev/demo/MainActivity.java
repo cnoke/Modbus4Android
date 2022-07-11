@@ -365,19 +365,7 @@ public class MainActivity extends BaseActivity {
             int baudrate = mBaudrates[mBaudrateIndex];
 
             mDeviceConfig.updateSerialConfig(path, baudrate);
-            param = SerialParam.create(new OnSerialPortDataListener() {
-                        @Override
-                        public void onDataReceived(byte[] var1) {
-
-                            String received = ByteUtil.bytes2HexStr(var1);
-                            Log.e("huanghui","接受：  "+received);
-                        }
-
-                        @Override
-                        public void onDataSent(byte[] var1) {
-
-                        }
-                    },path, baudrate) // 串口地址和波特率
+            param = SerialParam.create(path, baudrate) // 串口地址和波特率
                 .setDataBits(mDataBits) // 数据位
                 .setParity(mParity) // 校验位
                 .setStopBits(mStopBits) // 停止位
